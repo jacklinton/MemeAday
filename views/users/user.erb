@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="//social_balloon-21.png">
+
+    <title>Account Profile</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/bootstrap-3.3.7/docs/examples/blog/blog.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/bootstrap-3.3.7/docs/examples/signin/signin.css" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+ </head>
+
+  <body>
+
+  	<div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="/">Home</a>
+          <% if session[:user_id] %>
+            <% @current_user = User.find(session[:user_id]) %>
+            <h4 class="blog-nav-item profile-title">View <%= @current_user.username%>'s Profile</h4>
+            <a class="blog-nav-item" href="/post/new">Make New Post</a>
+            <% if @current_user.group_name == "twentyseventeam" %>
+              <a class="blog-nav-item" href="#"><%= @current_user.group_name %> Group Page</a>
+            <% end %>
+          <% else %>
+            <a class="blog-nav-item" href="/users/new">Register New Account</a>
+          <% end %>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class = "profile-main" id= "profile-main">
+        <h2 style="color: red;"><%= flash[:notice] if flash[:notice] %></h2>
+        <% @current_user = User.find(session[:user_id]) %>
+        <div class="p-avatar" ><img src="<%=@current_user.avatar%>"  id="p-avatar"></div>
+        <h1 class="profile-title"><%= @current_user.username%></h1>
+        <% if @current_user.group_name == "twentyseventeam" %>
+        <h2 class="profile-title">Group: <%= @current_user.group_name%></h2>
+        <% end %>
+      </div>
+
+      <h2 class="form-signin-heading">Edit Account Details</h2>
+      <form class="form-signin" action="/users/edit/avatar/<%=@current_user.id%>" method="POST">
+        <label for="avatar" class="sr-only">Pick An Avatar</label>
+        <input type="text" id="avatar" name="avatar" class="form-control" placeholder="Enter url of avatar image here"  autofocus>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Change Avatar</button>
+      </form>
+
+      <form class="form-signin" action="/users/edit/username/<%=@current_user.id%>" method="POST">
+        <label for="username" class="sr-only">Pick A Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="<%= @current_user.username%>"  autofocus>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Change Username</button>
+      </form>
+
+      <form class="form-signin" action="/users/edit/password/<%=@current_user.id%>" method="POST">
+      	<label for="password" class="sr-only">Password (Case Sensitive)</label>
+        <input type="text" id="password" class="form-control" name="password" placeholder="password"  autofocus>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
+      </form>
+
+      <form class="form-signin" action="/users/edit/group/<%=@current_user.id%>" method="POST">
+        <label for="group_name" class="sr-only">Group(Leave Blank)</label>
+        <input type="text" id="group_name" name="group_name" class="form-control" placeholder="group name (optional)">
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Change Group</button>
+      </form>
+
+    </div> <!-- /container -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/bootstrap-3.3.7/docs/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/bootstrap-3.3.7/docs/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

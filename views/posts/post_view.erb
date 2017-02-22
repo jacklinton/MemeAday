@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="//social_balloon-21.png">
+
+    <title>Post View</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/bootstrap-3.3.7/docs/examples/blog/blog.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/bootstrap-3.3.7/docs/examples/signin/signin.css" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="/steganography.js"></script>
+ </head>
+
+  <body>
+
+  	<div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="/">Home</a>
+          <% @current_user = User.find(session[:user_id]) %>
+          <% if session[:user_id] %>
+            <a class="blog-nav-item profile-title" href="/users/profile">View <%= @current_user.username%>'s Profile</a>
+            <a class="blog-nav-item" href="/post/new">Make New Post</a>
+            <% if @current_user.group_name == "twentyseventeam" %>
+            <a class="blog-nav-item" href="#"><%= @current_user.group_name %> Group Page</a>
+            <% end %>
+          <% else %>
+            <a class="blog-nav-item" href="/users/new">Register New Account</a>
+          <% end %>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          <div class="blog-post">
+
+            <div class = "profile-main" id= "profile-main">
+              <div class="p-avatar" ><img src="<%=@post.user.avatar%>"  id="p-avatar"></div>
+              <h1 class="post-title">Post by <%= @post.user.username%></h1>
+              <h1 class="post-title">Title: <%= @post.title%></h1>
+              <img class ="" id = "image" src="<%= @post.meme %>">
+              <br>
+              <br>
+              <%if @post.user.group_id == @current_user.group_id %>
+                <h1 id = "secret">!</h1>
+                <script type="text/javascript"> var image = document.getElementById("image").src; document.getElementById("secret").innerHTML = "Secret message: " + steg.decode(image);</script>
+              <% end %>
+            </div>
+
+            <% if @post.user_id == session[:user_id]%>
+
+            <form class="form-signin" action="/posts" method="POST">
+              <h2 class="form-signin-heading">Edit your Meme</h2>
+              
+              <label for="memeUrl" class="sr-only">Link to the Meme</label>
+              <input type="text" id="memeUrl" name="memeUrl" class="form-control" placeholder="URL here" required autofocus>
+              <% if @post.user.group_id %>
+            	 <label for="secret" class="sr-only">Secret Message</label> 
+              <input type="text" id="secret" name="secret" class="form-control" placeholder="secret" required autofocus>
+              <% end %>
+              <label for="title" class="sr-only">Title</label>
+              <input type="text" id="title" name="title" class="form-control" placeholder="title">
+              <% if @post.user.group_id %>
+              <label for="body" class="sr-only">Meme</label>
+              <input type="text" id="body" name="body" class="form-control" placeholder="post">
+              <% end %> 
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Edit Post</button>
+            </form>
+            <a href="/posts/delete/<%= @post.id %>" ><button class="btn btn-lg btn-primary btn-block" type="button">delete</button></a> 
+            <% end %>
+        </div>
+      </div>    
+    </div> <!-- /container -->
+    
+    <script type="text/javascript" src="/scripts.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/bootstrap-3.3.7/docs/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/bootstrap-3.3.7/docs/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
