@@ -1,6 +1,7 @@
 require "sinatra"
 require "sinatra/activerecord"
 require "sinatra/flash"
+require "sinatra/export"
 require "gon-sinatra"
 require 'rabl'
 require 'active_support/core_ext'
@@ -10,7 +11,7 @@ require "./models"
 
 Rabl.register!
 Sinatra::register Gon::Sinatra::Rabl
-
+register Sinatra::Export
 
 
 configure(:development){set :database, "sqlite3:microblog.sqlite3"}
