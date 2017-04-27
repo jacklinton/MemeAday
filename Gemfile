@@ -9,6 +9,7 @@ gem "oj"
 gem "rake"
 gem "builder"
 gem "sinatra-bootstrap"
+gem "sinatra-export"
 
 
 group :development do         

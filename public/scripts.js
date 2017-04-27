@@ -6,7 +6,7 @@ var imgurl = document.getElementById("memeImg")
 
 iurl.addEventListener("change", function(){
 	img = document.getElementById("memeUrl").value
-	document.getElementById("memeImg").setAttribute("src", img)
+	// document.getElementById("memeImg").setAttribute("src", img)
 })
 
 msg.addEventListener("change", function(){
